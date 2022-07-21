@@ -17,9 +17,10 @@ public class PlayerController : MonoBehaviour
   void Start(){}  // Se llama antes de la actualización del primer fotograma
   void Update(){} // Se llama una vez por fotograma
 
-  private void Caminar() 
+  private void Movimiento() 
   {
-    
+    float x = Input.GetAxis("Horizontal"); // Recupera el eje input de Unity
+    float y = Input.GetAxis("Vertical");   // Recupera el eje input de Unity
   }
 
   private void Caminar() 
