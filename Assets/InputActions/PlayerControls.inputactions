@@ -1,0 +1,56 @@
+{
+    "name": "PlayerControls",
+    "maps": [
+        {
+            "name": "Default",
+            "id": "e0a93204-1b4e-465a-9922-8035ef023355",
+            "actions": [
+                {
+                    "name": "Jump",
+                    "type": "Button",
+                    "id": "f732eb34-363c-4b11-aac6-98a61b98f369",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "aa669ae2-1e3a-4a13-afd4-35d0b35fdbe6",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "0e8581cc-5c34-405f-af15-17960d078601",
+                    "path": "<Keyboard>/upArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6a8bee15-842c-41d3-99e4-0794f92adfa8",
+                    "path": "<Keyboard>/w",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jump",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
