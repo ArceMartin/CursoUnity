@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
   void Start(){}  // Se llama a Start antes de la actualización del primer fotograma
   void Update() // Update se llama una vez por fotograma
   {
+    // Permite al personaje permanecer con su velovidad al caer al suelo
     rbody.velocity = new Vector2(currentSpeed, rbody.velocity.y);
   }
 
@@ -36,5 +37,13 @@ public class PlayerMovement : MonoBehaviour
     // Actualizamos la velocidad con el valor 
     // rbody.velocity = new Vector2(moveValue*walkSpeed, rbody.velocity.y);
     currentSpeed = moveValue * walkSpeed;
+
+
+    // Logica para cambiar direccion del personaje
+    if (moveValue * transform.localScale.x < 0) // input y direccion opuestos
+    {
+      transform.localScale = new Vector2(-1 * transform.localScale.x, transform.localScale.y);
+    }
+
   }
 }
