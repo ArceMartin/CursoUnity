@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 417413706}
   - component: {fileID: 417413710}
   - component: {fileID: 417413709}
+  - component: {fileID: 417413711}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -240,8 +241,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 417413704}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -3, y: 0.78, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -3, y: 0.79, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -291,6 +292,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rbody: {fileID: 417413706}
+  jumpForce: 6.16
+  walkSpeed: 10
+  abajo: {x: 0, y: -0.79}
+  radioColision: 0.1
+  layerPiso:
+    serializedVersion: 2
+    m_Bits: 64
+  enSuelo: 0
+--- !u!95 &417413711
+Animator:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 417413704}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 946e5dfab0fda704fbb436d56c87651e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &452700840
 GameObject:
   m_ObjectHideFlags: 0
@@ -850,7 +879,7 @@ GameObject:
   - component: {fileID: 859167499}
   - component: {fileID: 859167498}
   - component: {fileID: 859167497}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Piso
   m_TagString: Untagged
   m_Icon: {fileID: 0}
