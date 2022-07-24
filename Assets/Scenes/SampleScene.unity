@@ -292,14 +292,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rbody: {fileID: 417413706}
-  jumpForce: 6.16
-  walkSpeed: 10
+  anim: {fileID: 417413711}
+  jumpForce: 6
+  walkSpeed: 6
   abajo: {x: 0, y: -0.79}
   radioColision: 0.1
   layerPiso:
     serializedVersion: 2
     m_Bits: 64
   enSuelo: 0
+  segundoSaltoDisponible: 1
 --- !u!95 &417413711
 Animator:
   serializedVersion: 4
