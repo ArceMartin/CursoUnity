@@ -37,30 +37,29 @@ public class PlayerMovement : MonoBehaviour
       segundoSaltoDisponible = true; // necesario para 2do salto al caer de una orilla
 
     // Logica para animaciones
-    if (enSuelo) 
+    if (enSuelo && rbody.velocity.x != 0) 
     {
-      anim.SetBool("saltar", false);
-      if (rbody.velocity.x != 0) 
-      {
-        anim.SetBool("caminar", true);
-      }
-      else
-      {
-        anim.SetBool("caminar", false);
-      }
+      anim.SetBool("caminar", true ); //
+      anim.SetBool("saltar" , false);
+      anim.SetBool("caer"   , false);
     }
-    else
+    else if (enSuelo && rbody.velocity.x == 0)
+    {
+      anim.SetBool("caminar", false); //
+      anim.SetBool("saltar" , false);
+      anim.SetBool("caer"   , false);
+    }
+    else if (!enSuelo && rbody.velocity.y > 0)
     {
       anim.SetBool("caminar", false);
-      anim.SetBool("saltar", true);
-      if (rbody.velocity.y > 0) 
-      {
-        anim.SetFloat("velocidadVertical", 1);
-      }
-      else if (rbody.velocity.y < 0)
-      {
-        anim.SetFloat("velocidadVertical", -1);
-      }
+      anim.SetBool("saltar" , true ); //
+      anim.SetBool("caer"   , false);
+    }
+    else if (!enSuelo && rbody.velocity.y < 0)
+    {
+      anim.SetBool("caminar", false);
+      anim.SetBool("saltar" , false);
+      anim.SetBool("caer"   , true ); //
     }
 
   }
