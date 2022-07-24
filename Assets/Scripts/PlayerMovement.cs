@@ -40,27 +40,13 @@ public class PlayerMovement : MonoBehaviour
     if (enSuelo) 
     {
       anim.SetBool("saltar", false);
-      if (rbody.velocity.x != 0) 
-      {
-        anim.SetBool("caminar", true);
-      }
-      else
-      {
-        anim.SetBool("caminar", false);
-      }
+      anim.SetBool("caminar", rbody.velocity.x != 0); // asignacion depende de velocidad horizontal
     }
     else
     {
       anim.SetBool("caminar", false);
       anim.SetBool("saltar", true);
-      if (rbody.velocity.y > 0) 
-      {
-        anim.SetFloat("velocidadVertical", 1);
-      }
-      else if (rbody.velocity.y < 0)
-      {
-        anim.SetFloat("velocidadVertical", -1);
-      }
+      anim.SetFloat("velocidadVertical", rbody.velocity.y > 0 ? 1 : -1); // asignacion depende de velocidad vertical (saltando/cayendo)
     }
 
   }
