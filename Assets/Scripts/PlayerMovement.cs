@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Cinemachine;
 
 public class PlayerMovement : MonoBehaviour
 {
   public  Rigidbody2D rbody;
   public  Animator anim;
   private Vector2 velocityPreDash;
+  public CinemachineVirtualCamera cm;
 
   [Header("Estadisticas")]
   public  float jumpForce = 6;
@@ -26,6 +28,13 @@ public class PlayerMovement : MonoBehaviour
   public  bool haciendoDash; // Nos indica si se encuentra haciendo dash
   public  bool puedeDash;    // Nos limita si se puede hacer dash
   public  bool puedoMover = true;
+  public  bool vibrando = false;
+
+  private void Awake() 
+  {
+    cm = GameObject.FindGameObjectWithTag("VirtualCamera")
+      .GetComponent<CinemachineVirtualCamera>();
+  }
 
   void Start(){}  // Una vez antes de la actualización del primer fotograma
   
@@ -90,14 +99,16 @@ public class PlayerMovement : MonoBehaviour
   private void OnDash()  
   {
     // Verifica que el player esta en movimiento
-    if (rbody.velocity != Vector2.zero) 
+    if (rbody.velocity != Vector2.zero && !haciendoDash) 
     {
       // Efecto de ripple centrado en el player
       Vector3 posicionJugador = Camera.main.WorldToViewportPoint(transform.position);
       Camera.main.GetComponent<RippleEffect>().Emit(posicionJugador);
 
+      StartCoroutine(AgitarCamara());
+
       // Animación
-      anim.SetBool("dash", true);
+      /*anim.SetBool("dash", true);*/ // Se movio a corutina
 
       // guarda vector velocidad actual
       velocityPreDash = rbody.velocity; 
@@ -110,29 +121,61 @@ public class PlayerMovement : MonoBehaviour
 
   private IEnumerator PrepararDash()  // Esta corutina prepara el dash del personaje
   {
-    StartCoroutine(DashSuelo());
+    /*StartCoroutine(DashSuelo());*/ // esta corutina ya no es necesaria
     rbody.gravityScale = 0;
     haciendoDash = true;
+    anim.SetBool("dash", true); 
 
-    yield return new WaitForSeconds(0.35f);
+    yield return new WaitForSeconds(0.5f);
     rbody.gravityScale = 1;
     haciendoDash = false;
+    anim.SetBool("dash", false);
+    rbody.velocity = velocityPreDash;
   }
 
-  private IEnumerator DashSuelo() 
+  /*private IEnumerator DashSuelo() // SUBSTITUIDO
   {
     yield return new WaitForSeconds(0.15f);
     if(enSuelo)
     {
       puedeDash = false;
     }
-  }
+  }*/
 
-  // Metodo para finalizar la animacion de dash 
-  public void FinalizarDash() 
+  // Metodo para finalizar la animacion de dash // SUBSTITUIDO
+ /* public void FinalizarDash() 
   {
     // Finaliza animacion
     anim.SetBool("dash", false);
     rbody.velocity = velocityPreDash;
+  }*/
+
+  // Corutina para modificar los parámetros del ruido
+  private IEnumerator AgitarCamara() 
+  {
+    vibrando = true;
+    CinemachineBasicMultiChannelPerlin cmNoise;
+    cmNoise = cm.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+    // Cambiamos la amplitud a 10 por 0.3 segundos
+    cmNoise.m_AmplitudeGain  = 10;
+    yield return new WaitForSeconds(0.3f);
+    cmNoise.m_AmplitudeGain  = 0;
+    vibrando = false;
+  }
+
+  // Usamos propiedad de Polimorfismo 
+  // Segunda corutina identica pero que admite un argumento
+  private IEnumerator AgitarCamara(float tiempo) 
+  {
+    vibrando = true;
+    CinemachineBasicMultiChannelPerlin cmNoise;
+    cmNoise = cm.GetCinemachineComponent<CinemachineBasicMultiChannelPerlin>();
+
+    // Cambiamos la amplitud a 10 por 0.3 segundos
+    cmNoise.m_AmplitudeGain  = 10;
+    yield return new WaitForSeconds(tiempo);
+    cmNoise.m_AmplitudeGain  = 0;
+    vibrando = false;
   }
 }
