@@ -25,7 +25,7 @@ public class PlayerMovement : MonoBehaviour
   [Header("Booleanos / Banderas")] 
   public  bool enSuelo;
   public  bool segundoSaltoDisponible;
-  public  bool haciendoDash; // Nos indica si se encuentra haciendo dash
+  public  bool haciendoDash = false; // Nos indica si se encuentra haciendo dash
   public  bool puedeDash;    // Nos limita si se puede hacer dash
   public  bool puedoMover = true;
   public  bool vibrando = false;
@@ -40,7 +40,8 @@ public class PlayerMovement : MonoBehaviour
   
   void Update() // Una vez por fotograma
   {
-    if (puedoMover && !haciendoDash) 
+    // if (puedoMover && !haciendoDash) 
+    if (puedoMover) 
     {
       // Actualiza velocidad horizontal
       rbody.velocity = new Vector2(currentSpeed, rbody.velocity.y);
@@ -105,52 +106,24 @@ public class PlayerMovement : MonoBehaviour
       Vector3 posicionJugador = Camera.main.WorldToViewportPoint(transform.position);
       Camera.main.GetComponent<RippleEffect>().Emit(posicionJugador);
 
+      // Efecto de agitar camara
       StartCoroutine(AgitarCamara());
 
-      // Animación
-      /*anim.SetBool("dash", true);*/ // Se movio a corutina
-
-      // guarda vector velocidad actual
+      // Guarda vector velocidad actual
       velocityPreDash = rbody.velocity; 
-      // aplica velocidad aumentada de dash
+      Debug.Log($"velocityPreDash = {velocityPreDash.x}, {velocityPreDash.y}");
+      // Aplica velocidad aumentada de dash
       rbody.velocity = rbody.velocity.normalized * velocidadDash; 
+      Debug.Log($"rbody.velocity  = {rbody.velocity.x}, {rbody.velocity.y}");
 
-      StartCoroutine(PrepararDash());
+      // Corutina para aislar el movimiento dash (0.5 segundos)
+      StartCoroutine(EjecutaDash());
+      // Corutina para limitar frecuencia del dash (5 segundos)
+      StartCoroutine(LimitaDash());
     }
   }
 
-  private IEnumerator PrepararDash()  // Esta corutina prepara el dash del personaje
-  {
-    /*StartCoroutine(DashSuelo());*/ // esta corutina ya no es necesaria
-    rbody.gravityScale = 0;
-    haciendoDash = true;
-    anim.SetBool("dash", true); 
-
-    yield return new WaitForSeconds(0.5f);
-    rbody.gravityScale = 1;
-    haciendoDash = false;
-    anim.SetBool("dash", false);
-    rbody.velocity = velocityPreDash;
-  }
-
-  /*private IEnumerator DashSuelo() // SUBSTITUIDO
-  {
-    yield return new WaitForSeconds(0.15f);
-    if(enSuelo)
-    {
-      puedeDash = false;
-    }
-  }*/
-
-  // Metodo para finalizar la animacion de dash // SUBSTITUIDO
- /* public void FinalizarDash() 
-  {
-    // Finaliza animacion
-    anim.SetBool("dash", false);
-    rbody.velocity = velocityPreDash;
-  }*/
-
-  // Corutina para modificar los parámetros del ruido
+  /*Corutina para modificar los parámetros del ruido de camara al hacer dash*/
   private IEnumerator AgitarCamara() 
   {
     vibrando = true;
@@ -164,9 +137,29 @@ public class PlayerMovement : MonoBehaviour
     vibrando = false;
   }
 
+  /*Corutina para aislar el movimiento dash (0.5 segundos)*/
+  private IEnumerator EjecutaDash()  
+  {
+    rbody.gravityScale = 0;
+    haciendoDash = true;
+    anim.SetBool("dash", true); 
+
+    yield return new WaitForSeconds(0.5f);
+    rbody.gravityScale = 1;
+    anim.SetBool("dash", false);
+    rbody.velocity = velocityPreDash;
+  }
+
+  /*Esta corutina limita el dash con un tiempo de espera de 5 segundos*/
+  private IEnumerator LimitaDash() 
+  {
+    yield return new WaitForSeconds(5f);
+    haciendoDash = false;
+  }
+
   // Usamos propiedad de Polimorfismo 
   // Segunda corutina identica pero que admite un argumento
-  private IEnumerator AgitarCamara(float tiempo) 
+/*  private IEnumerator AgitarCamara(float tiempo) 
   {
     vibrando = true;
     CinemachineBasicMultiChannelPerlin cmNoise;
@@ -177,5 +170,5 @@ public class PlayerMovement : MonoBehaviour
     yield return new WaitForSeconds(tiempo);
     cmNoise.m_AmplitudeGain  = 0;
     vibrando = false;
-  }
+  }*/
 }
