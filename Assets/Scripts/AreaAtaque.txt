@@ -6,7 +6,6 @@ public class AreaAtaque : MonoBehaviour
 {
   public Vector2 knockbackForce; // manipulamos el vector de empuje desde el editor
   public Transform playerTransform; // Para obtener la escala en x del player
-  public int hits = 3;
 
   void Start(){}
   void Update(){}
@@ -29,18 +28,8 @@ public class AreaAtaque : MonoBehaviour
       enemyRb.AddForce(directedKnockback, ForceMode2D.Impulse);
       // enemyRb.AddForce(directedKnockback);
 
-      // Recuperamos los sprites de los corazones
       SpriteRenderer[] corazones = collision.GetComponentsInChildren<SpriteRenderer>();
-      // Logica para desaparecer los corazones y el enemigo con cada golpe
-      if (hits > 0) 
-      {
-        // Los primeros 3 golpes eliminan cada corazon
-        corazones[hits].GetComponent<Renderer>().enabled = false;
-        hits--;
-        Debug.Log($"hits = {hits}");
-        // El 3er golpe desaparece al enemigo
-        if (hits==0) collision.GetComponent<Renderer>().enabled = false;
-      }
+      corazones[2].renderer.enabled = false;
     }
   }
 }
