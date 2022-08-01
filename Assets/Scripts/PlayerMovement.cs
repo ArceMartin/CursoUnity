@@ -122,10 +122,10 @@ public class PlayerMovement : MonoBehaviour
 
       // Guarda vector velocidad actual
       velocityPreDash = rbody.velocity; 
-      Debug.Log($"velocityPreDash = {velocityPreDash.x}, {velocityPreDash.y}");
+      // Debug.Log($"velocityPreDash = {velocityPreDash.x}, {velocityPreDash.y}");
       // Aplica velocidad aumentada de dash
       rbody.velocity = rbody.velocity.normalized * velocidadDash; 
-      Debug.Log($"rbody.velocity  = {rbody.velocity.x}, {rbody.velocity.y}");
+      // Debug.Log($"rbody.velocity  = {rbody.velocity.x}, {rbody.velocity.y}");
 
       // Corutina para aislar el movimiento dash (0.5 segundos)
       StartCoroutine(EjecutaDash());
@@ -177,8 +177,8 @@ public class PlayerMovement : MonoBehaviour
       anim.SetBool("ataque", true);
       anim.SetFloat("ataqueX", direccionAtaque.x);
       anim.SetFloat("ataqueY", direccionAtaque.y);
-      Debug.Log($"x = {direccionAtaque.x}");
-      Debug.Log($"y = {direccionAtaque.y}");
+      // Debug.Log($"x = {direccionAtaque.x}");
+      // Debug.Log($"y = {direccionAtaque.y}");
     }
   }
 
@@ -194,7 +194,7 @@ public class PlayerMovement : MonoBehaviour
   {
     // Recuperamos el valor del input (-1, 0 o 1)
     float lookValue = inputValue.Get<float>();
-    // Debug.Log("Look!" + lookValue);
+    Debug.Log("Look!" + lookValue);
     // Asignamos valor a vector direccionAtaque en base al input
     direccionAtaque.y = lookValue;
   }
